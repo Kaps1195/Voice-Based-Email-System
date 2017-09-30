@@ -25,7 +25,7 @@ SECRET_KEY = 'gnn0it*%jp+36cd*3y#btwl3etm@)1x5!ki8p*u@5pl09my&5k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'vmail-nit.herokuapp.com', '*']
 
 
 # Application definition
