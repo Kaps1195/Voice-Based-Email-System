@@ -13,7 +13,7 @@ def mail_create(request):
 		if form.is_valid():
 			instance = form.save(commit=False)
 			send_mail(instance.subject, instance.content,'kramnani95@gmail.com', [instance.to])
-			instance.save()
+			#instance.save() 
 			return HttpResponseRedirect('/')
 
 	else:
@@ -26,3 +26,4 @@ def mail_create(request):
 	return render(request, 'mail/create.html', context)
 
     
+
