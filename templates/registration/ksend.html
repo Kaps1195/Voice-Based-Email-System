@@ -1,0 +1,29 @@
+{% extends 'login.html' %}
+
+{% block title %}
+    Mail Page
+{% endblock %}
+
+
+{% block content %}
+
+    <form method="post" action="{% url 'Send Mail' %}">
+        {% csrf_token %}
+        <h4>Login</h4>
+        <div>
+            <td>Username</td>
+{#            <td>{{ form.username.label_tag }}</td>#}
+            <td>{{ form.username }}</td>
+        </div>
+        <div>
+            <td>Password</td>
+{#            <td>{{ form.password.label_tag }}</td>#}
+            <td>{{ form.password }}</td>
+        </div>
+
+        <div>
+            <input type="submit" value="login" class="btn "/>
+
+        </div>
+    </form>
+{% endblock %}
