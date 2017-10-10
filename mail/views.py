@@ -12,7 +12,7 @@ def mail_create(request):
 		form = MailForm(request.POST)
 		if form.is_valid():
 			instance = form.save(commit=False)
-			send_mail(instance.subject, instance.content,'kramnani95@gmail.com', [instance.to])
+			send_mail(instance.subject, instance.content,'kapsuji@gmail.com', [instance.to])
 			#instance.save() 
 			return HttpResponseRedirect('/')
 
