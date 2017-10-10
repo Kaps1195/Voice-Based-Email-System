@@ -17,11 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from mail.views import mail_create
+from allauth import urls
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/', include(urls)),
     url(r'^send/$', mail_create, name='mail_create'),
 
 ]
