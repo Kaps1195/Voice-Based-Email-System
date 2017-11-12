@@ -12,4 +12,30 @@ Send Mail
 	<input type="submit" value="Send Mail" class="btn "/>
 </form>
 
+<script>
+  $(document).ready(function(){
+    responsiveVoice.speak("Please Enter sender's I D");
+    // alert('aaa')
+
+    $('#id_to').focus(function(){
+      responsiveVoice.speak("Please Enter sender's  I D");   
+    })
+    $('#id_subject').focus(function(){
+      responsiveVoice.speak("Enter Your subject");   
+    })
+    $('#id_content').focus(function(){
+      responsiveVoice.speak("Enter Your content");   
+    })
+    $('#id_to').hover(function(){
+      responsiveVoice.speak("Please Enter sender's I D");   
+    })
+    $('#id_subject').hover(function(){
+      responsiveVoice.speak("Enter Your subject");   
+    })
+    $('#id_content').hover(function(){
+      responsiveVoice.speak("Enter Your content");   
+    })
+  })
+</script>
+
 {% endblock %}

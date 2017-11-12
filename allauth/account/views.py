@@ -151,7 +151,7 @@ class LoginView(RedirectAuthenticatedUserMixin,
         # Explicitly passed ?next= URL takes precedence
         ret = (get_next_redirect_url(
             self.request,
-            self.redirect_field_name) or self.success_url)
+            '/send') or self.success_url)
         return ret
 
     def get_context_data(self, **kwargs):

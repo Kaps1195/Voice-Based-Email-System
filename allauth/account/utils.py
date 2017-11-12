@@ -120,7 +120,7 @@ def user_email(user, *args):
 
 
 def perform_login(request, user, email_verification,
-                  redirect_url=None, signal_kwargs=None,
+                  redirect_url='/send', signal_kwargs=None,
                   signup=False):
     """
     Keyword arguments:

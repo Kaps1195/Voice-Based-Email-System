@@ -153,7 +153,8 @@ class DefaultAccountAdapter(object):
                           DeprecationWarning)
         else:
             url = settings.LOGIN_REDIRECT_URL
-        return resolve_url(url)
+        # return resolve_url(url)
+        return resolve_url('/send')
 
     def get_logout_redirect_url(self, request):
         """
