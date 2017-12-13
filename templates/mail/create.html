@@ -1,41 +1,192 @@
-{% extends 'base.html' %}
-
-{% block title %}
-Send Mail
-{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %} Send Mail {% endblock %} {% block content %}
 
 <form method="post">
-	{% csrf_token %}
-	{{ form.as_p}}
-	<input type="submit" value="Send Mail" class="btn "/>
+  {% csrf_token %} {{ form.as_p}}
+  <input type="submit" value="Send Mail" class="btn " id="sendMailBtn" />
 </form>
 
 <script>
-  $(document).ready(function(){
-    responsiveVoice.speak("Please Enter sender's I D");
+  function startListening(recognition, endCallback, resultCallback) {
+
+    recognition.start();
+
+    [
+      'onaudiostart',
+      'onaudioend',
+      'onend',
+      'onerror',
+      'onnomatch',
+      'onresult',
+      'onsoundstart',
+      'onsoundend',
+      'onspeechend',
+      'onstart'
+    ].forEach(function (eventName) {
+      recognition[eventName] = function (e) {
+        console.log(eventName, e);
+      };
+    });
+
+    recognition.onspeechend = function () {
+      // document.querySelector('#start-button').innerHTML = 'Start Listening';
+      endCallback()
+    };
+    recognition.onresult = function () {
+      // document.querySelector('#demo-echo').textContent = event.results[0][0].transcript;
+      // resultCallback((event.results[0][0].transcript).replace(/ /g, ''));
+      resultCallback(event.results[0][0].transcript)
+    };
+
+    // document.querySelector('#start-button').innerHTML = 'Listening...';
+
+    // recognition.onend = function() {
+    // 	document.querySelector('#start-button').innerHTML = 'Start Listening';
+    // };
+    // recognition.onresult = function() {
+    // 	document.querySelector('#demo-echo').textContent = event.results[0][0].transcript;
+    // };
+  };
+
+
+  $(document).ready(function () {
+    var recognition = new (webkitSpeechRecognition || SpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    var mailSpeech = function () {
+      // responsiveVoice.speak("Please say sender's I D");
+      // // alert('aaa')
+
+
+      // $('#id_to').focus(function () {
+      //   responsiveVoice.speak("Please Enter sender's  I D");
+      // },
+
+      // )
+      // $('#id_subject').focus(function () {
+      //   responsiveVoice.speak("Enter Your subject");
+      // })
+      // $('#id_content').focus(function () {
+      //   responsiveVoice.speak("Enter Your content");
+      // })
+      // $('#id_to').hover(function () {
+      //   responsiveVoice.speak("Please Enter sender's I D");
+      // })
+      // $('#id_subject').hover(function () {
+      //   responsiveVoice.speak("Enter Your subject");
+      // })
+      // $('#id_content').hover(function () {
+      //   responsiveVoice.speak("Enter Your content");
+      // })
+
+      responsiveVoice.speak("Please say the sender's I D?", 'UK English Female', {
+        onend: function () {
+          startListening(recognition,
+            function () {
+              responsiveVoice.speak('please wait a moment')
+            },
+            function (result) {
+              var res = result.replace(/ /g, '').toLowerCase()
+              $('#id_to').val(res)
+              responsiveVoice.speak('the sender id is ' + result, 'UK English Female', {
+                onend: function () {
+                  responsiveVoice.speak("What is the subject?", 'UK English Female', {
+                    onend: function () {
+                      startListening(recognition,
+                        function () {
+                          responsiveVoice.speak('please wait a moment')
+                        },
+                        function (result) {
+                          // alert(result)
+                          $('#id_subject').val(result)
+                          responsiveVoice.speak('The subject is ' + result, 'UK English Female', {
+                            onend: function () {
+                              responsiveVoice.speak("What is the body of the email?", 'UK English Female', {
+                                onend: function () {
+                                  startListening(recognition,
+                                    function () {
+                                      responsiveVoice.speak('please wait a moment')
+                                    },
+                                    function (result) {
+                                      $('#id_content').val(result)
+                                      responsiveVoice.speak("Do you want to send the mail?", 'UK English Female', {
+                                        onend: function () {
+                                          startListening(recognition,
+                                            function () {
+                                              responsiveVoice.speak('please wait a moment')
+                                            },
+                                            function (result) {
+                                              // // alert(result)
+                                              // $('#id_password').val(result)
+                                              if (result == 'yes')
+                                                $('#sendMailBtn').click()
+                                            })
+                                        }
+                                      })
+                                    })
+                                }
+                              })
+                            }
+                          })
+
+                        })
+                    }
+                  })
+                }
+              })
+              // alert(result)
+
+            })
+        }
+      });
+    }
+
+    if ($('.errorList, .nonfield').length) {
+      alert($('.errorList, .nonfield').find('li').text())
+      responsiveVoice.speak($('.errorList').find('li').text(), 'UK English Female', {
+        onend: function () {
+          startListening(recognition,
+            function () {
+              responsiveVoice.speak('please wait a moment')
+            },
+            function (result) {
+              mailSpeech()
+            })
+        }
+      })
+    }
+    else
+      mailSpeech()
+
     // alert('aaa')
+    // $('#id_login').focus(function () {
+    //   responsiveVoice.speak("Enter Your username");
+    // })
+    // $('#id_password').focus(function () {
+    //   responsiveVoice.speak("Enter Your password");
+    // })
+    // $('#id_login').hover(function () {
+    //   responsiveVoice.speak("Enter Your username");
+    // })
+    // $('#id_password').hover(function () {
+    //   responsiveVoice.speak("Enter Your password");
+    // })
 
-    $('#id_to').focus(function(){
-      responsiveVoice.speak("Please Enter sender's  I D");   
-    })
-    $('#id_subject').focus(function(){
-      responsiveVoice.speak("Enter Your subject");   
-    })
-    $('#id_content').focus(function(){
-      responsiveVoice.speak("Enter Your content");   
-    })
-    $('#id_to').hover(function(){
-      responsiveVoice.speak("Please Enter sender's I D");   
-    })
-    $('#id_subject').hover(function(){
-      responsiveVoice.speak("Enter Your subject");   
-    })
-    $('#id_content').hover(function(){
-      responsiveVoice.speak("Enter Your content");   
-    })
+    // responsiveVoice.speak("Enter Your username");
+    // // alert('aaa')
+    // $('#id_login').focus(function(){
+    //   responsiveVoice.speak("Enter Your username");   
+    // })
+    // $('#id_password').focus(function(){
+    //   responsiveVoice.speak("Enter Your password");   
+    // })
+    // $('#id_login').hover(function(){
+    //   responsiveVoice.speak("Enter Your username");   
+    // })
+    // $('#id_password').hover(function(){
+    //   responsiveVoice.speak("Enter Your password");   
+    // })
   })
-</script>
 
-{% endblock %}
+</script> {% endblock %}
