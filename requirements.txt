@@ -2,7 +2,7 @@ dj-database-url==0.4.1
 gunicorn==19.6.0
 psycopg2==2.6.2
 whitenoise==3.2
-certifi==2017.4.17
+certifi==2022.12.7
 chardet==3.0.4
 defusedxml==0.5.0
 Django==1.11.2
